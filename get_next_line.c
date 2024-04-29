@@ -6,7 +6,7 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:42:59 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/04/08 13:43:01 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/04/29 17:30:40 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,14 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*storage;
-	char		*line;
-	char		*buffer;
-	size_t		size;
+	int	bytes_read;
+	char *cup_buffer;
 
-	size = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	cup_buffer = ft_calloc(3 + 1, sizeof(char));
+	if (cup_buffer == NULL)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE);
-	if (!buffer)
+	bytes_read = read(fd, cup_buffer, 3);
+	if (bytes_read <= 0)
 		return (NULL);
-	storage = ft_read_fd(fd, buffer, storage);
-
-	ft_read_fd(int fd, char *buffer, char *storage, size_t size)
-	{
-		if (fd < 0 || buffer == NULL)
-			return (NULL);
-		while (storage = read(fd,buffer + size) )
-	}
-
-
-	if (!storage)
-		return (NULL);
-	line = ft_create_line(storage);
-	if(!line)
-		return (NULL);
-	storage = ft_update_storage(storage);
-	if (!storage)
-		return(NULL);
-	return (line);
+	return (cup_buffer);
 }
