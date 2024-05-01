@@ -6,23 +6,24 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:42:59 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/04/29 17:30:40 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/01 19:18:11 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
 char	*get_next_line(int fd)
 {
-	int	bytes_read;
-	char *cup_buffer;
+	static char	*stash;
+	char		*line;
+	char		*buffer;
 
-	cup_buffer = ft_calloc(3 + 1, sizeof(char));
-	if (cup_buffer == NULL)
+	buffer = (char *) malloc((BUFFER_SIZE +1) * sizeof(char));
+	if (!buffer)
 		return (NULL);
-	bytes_read = read(fd, cup_buffer, 3);
-	if (bytes_read <= 0)
+	line = ft_read_line(fd, stash, buffer);
+	if (!line)
 		return (NULL);
-	return (cup_buffer);
+	stash = ft_stash_clean(line);
+	return (line);
 }
