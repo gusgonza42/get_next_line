@@ -21,11 +21,12 @@
 #  define BUFFER_SIZE 5
 # endif
 
-char	*get_next_line(int fd);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+size_t	ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strdup(char *s1);
+char	*ft_strchr(char *s, int c);
 char	*ft_substr(char *s, unsigned int start, size_t len);
-char	*ft_strdup(char *source);
-char	*ft_strjoin(char *sL, char *sR);
-void	fill_str(char *result, char *str1, char *str2);
-size_t	ft_strlen(const char *s);
-
+char	*get_next_line(int fd);
+char	*ft_delete(char **str);
 #endif
