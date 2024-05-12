@@ -6,7 +6,7 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:43:11 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/12 14:05:56 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 14:40:43 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,14 @@ char	*ft_strjoin(char *s1, const char *s2)
 
 	i = ft_strlen(s1);
 	j = ft_strlen(s2);
-	res = (char *)malloc(sizeof(char) * (i + j + 1));
+	res = (char *)malloc(sizeof(char) * ((i + j) + 1));
 	if (!res)
-	{
-		free(s1);
 		return (NULL);
-	}
 	res[i + j] = '\0';
 	while (j--)
-		res[i + j] = s2[i];
+		res[i + j] = s2[j];
 	while (i--)
-		res[i] = s1[j];
+		res[i] = s1[i];
 	return (res);
 }
 
