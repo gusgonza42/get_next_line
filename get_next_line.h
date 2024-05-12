@@ -6,7 +6,7 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:43:23 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/12 13:45:27 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 17:05:46 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 12
 # endif
 
 char	*get_next_line(int fd);

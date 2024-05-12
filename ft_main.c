@@ -6,11 +6,10 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 16:02:19 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/10 22:52:42 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:50:23 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
 #include "get_next_line.h"
 #include <stdio.h>
 
@@ -19,20 +18,22 @@ int	main(void)
 	int		fd;
 	char	*line;
 	
-	fd = open("multiple_nl.txt", O_RDONLY);
-	if (fd == -1)
-		return (-1);
-
-	while ((line = get_next_line(fd)) != NULL)
+	fd = open("giant_line.txt", O_RDONLY);
+	//fd = 0;
+	line = get_next_line(fd);
+	printf("%s", line);
+	free(line);
+	/*while ((line = get_next_line(fd)) != NULL)
 	{
 		printf("%s\n", line);
-		//free(line);
-	}
-	close(fd);
+		free(line);
+	}**/
+	if (fd > 0)
+		close(fd);
 	return (0);
 }
-*/
 
+/*
 #include "get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
@@ -68,4 +69,4 @@ int	main(int argc, char **argv)
 	}
 	return (0);
 }
-
+*/

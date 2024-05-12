@@ -6,10 +6,9 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:42:59 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/12 14:54:06 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 17:00:53 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "get_next_line.h"
 
 static char	*ft_set_line(char *line_buffer)
@@ -20,9 +19,11 @@ static char	*ft_set_line(char *line_buffer)
 	pos = 0;
 	while (line_buffer[pos] != '\n' && line_buffer[pos] != '\0')
 		pos++;
-	if (line_buffer[pos] == 0 || line_buffer[1] == 0)
+	if (line_buffer[pos] == 0)
 		return (NULL);
 	stash_c = ft_substr(line_buffer, pos + 1, ft_strlen(line_buffer) - pos);
+	if (!stash_c)
+		return (NULL);
 	if (*stash_c == 0)
 	{
 		free(stash_c);
@@ -40,8 +41,8 @@ static char	*ft_line_buffer(int fd, char *stash_c, char *buffer)
 	b_read = 1;
 	while (b_read > 0)
 	{
-		b_read = read (fd, buffer, BUFFER_SIZE);
-		if (b_read < 0)
+		b_read = read(fd, buffer, BUFFER_SIZE);
+		if (b_read == -1)
 		{
 			free(stash_c);
 			return (NULL);
@@ -54,7 +55,6 @@ static char	*ft_line_buffer(int fd, char *stash_c, char *buffer)
 		stash_c = ft_strjoin(tmp, buffer);
 		if (!stash_c)
 			return (NULL);
-		free(tmp);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -67,8 +67,10 @@ char	*get_next_line(int fd)
 	char		*line;
 	char		*buffer;
 
-	buffer = (char *) malloc((BUFFER_SIZE +1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)
 	{
 		free(stash);
 		free(buffer);
@@ -76,8 +78,6 @@ char	*get_next_line(int fd)
 		buffer = NULL;
 		return (NULL);
 	}
-	if (!buffer)
-		return (NULL);
 	line = ft_line_buffer(fd, stash, buffer);
 	free(buffer);
 	buffer = NULL;
