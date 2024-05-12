@@ -47,7 +47,7 @@ clean:
 
 # <-- Clean Execution + .a Destruction --> #
 fclean: clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) *.out
 	@echo "🗑️  🛰  $(NAME) destroyed successfully!"
 
 # <-- Fclean Execution -->

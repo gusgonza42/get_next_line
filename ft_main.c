@@ -1,42 +1,71 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_main.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/08 14:04:00 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/04/08 14:04:02 by gusgonza         ###   ########.fr       */
+/*   Created: 2024/05/06 16:02:19 by gusgonza          #+#    #+#             */
+/*   Updated: 2024/05/10 22:52:42 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+/*
 #include "get_next_line.h"
+#include <stdio.h>
 
 int	main(void)
 {
 	int		fd;
-	char	*str;
-
-	fd = open("yowTest.txt", O_RDONLY);
+	char	*line;
+	
+	fd = open("multiple_nl.txt", O_RDONLY);
 	if (fd == -1)
+		return (-1);
+
+	while ((line = get_next_line(fd)) != NULL)
 	{
-		perror("Error open\n");
+		printf("%s\n", line);
+		//free(line);
+	}
+	close(fd);
+	return (0);
+}
+*/
+
+#include "get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
+
+int	main(int argc, char **argv)
+{
+	int		fd;
+	char	*line;
+	int		line_number;
+	int		counter;
+
+	if (argc < 2)
+	{
+		fprintf(stderr, "Durete los argumentos\n");
 		return (1);
 	}
-	while ((str = get_next_line(fd)) != NULL)
+	counter = 0;
+	while (++counter < argc)
 	{
-		if (str == NULL)
-			printf("Error dont read line");
-		else
+		fd = open(argv[counter], O_RDONLY);
+		line = get_next_line(fd);
+		line_number = 0;
+		printf("=================================\n");
+		printf("%s:\n", argv[counter]);
+		printf("=================================\n");
+		while (line)
 		{
-			printf("Result line: %s \n", str);
-			free(str);
+			printf("%d: %s\n", line_number++, line);
+			free(line);
+			line = get_next_line(fd);
 		}
+		close(fd);
 	}
-
-	close(fd);
-
 	return (0);
 }
 
