@@ -6,100 +6,83 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:42:59 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/01 19:18:11 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 12:17:35 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// Función para liberar la memoria de una cadena y establecerla en NULL
-char	*ft_str_free_and_null(char **str)
+static char	*ft_set_line(char *line_buffer)
 {
-	if (*str)
+	char	*stash_c;
+	size_t	pos;
+
+	pos = 0;
+	while (line_buffer[pos] != '\n' && line_buffer[pos] != '\0')
+		pos++;
+	if (line_buffer[pos] == 0 || line_buffer[1] == 0)
+		return (NULL);
+	stash_c = ft_substr(line_buffer, pos + 1, ft_strlen(line_buffer) - pos);
+	if (*stash_c == 0)
 	{
-		free(*str);
-		*str = NULL;
+		free(stash_c);
+		stash_c = NULL;
 	}
-	return (NULL);
+	line_buffer[pos + 1] = 0;
+	return (stash_c);
 }
 
-// Función para limpiar el almacenamiento después de leer una línea
-char	*ft_str_remove_line(char *storage)
+static char	*ft_line_buffer(int fd, char *stash_c, char *buffer)
 {
-	char	*new_storage;
-	char	*newline;
-	int		len;
+	ssize_t	b_read;
+	char	*tmp;
 
-	newline = ft_strchr(storage, '\n');
-	if (!newline)
-		return (ft_str_free_and_null(&storage));
-	else
-		len = (newline - storage) + 1;
-	if (!storage[len])
-		return (ft_str_free_and_null(&storage));
-	new_storage = ft_substr(storage, len, ft_strlen(storage) - len);
-	ft_str_free_and_null(&storage);
-	if (!new_storage)
-		return (NULL);
-	return (new_storage);
-}
-
-// Función para obtener la línea fresca (hasta el carácter de nueva línea) desde el almacenamiento
-char	*ft_str_get_line(char *storage)
-{
-	char	*line;
-	char	*newline;
-	int		len;
-
-	newline = ft_strchr(storage, '\n');
-	len = (newline - storage) + 1;
-	line = ft_substr(storage, 0, len);
-	if (!line)
-		return (NULL);
-	return (line);
-}
-
-// Función para leer datos desde un archivo descriptor
-char	*ft_str_read_data(int fd, char *storage)
-{
-	int		ret;
-	char	*buf;
-
-	ret = 1;
-	buf = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (ft_str_free_and_null(&storage));
-	buf[0] = '\0';
-	while (ret > 0 && !ft_strchr(buf, '\n'))
+	b_read = 1;
+	while (b_read > 0)
 	{
-		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret > 0)
+		b_read = read (fd, buffer, BUFFER_SIZE);
+		if (b_read == -1)
 		{
-			buf[ret] = '\0';
-			storage = ft_strjoin(storage, buf);
+			free(stash_c);
+			return (NULL);
 		}
+		else if (b_read == 0)
+			break ;
+		buffer[b_read] = 0;
+		if (!stash_c)
+			stash_c = ft_strdup("");
+		tmp = stash_c;
+		stash_c = ft_strjoin(tmp, buffer);
+		free(tmp);
+		tmp = NULL;
+		if (ft_strchr(buffer, '\n'))
+			break ;
 	}
-	free(buf);
-	if (ret == -1)
-		return (ft_str_free_and_null(&storage));
-	return (storage);
+	return (stash_c);
 }
 
-// Función principal para obtener la próxima línea desde un archivo descriptor
 char	*get_next_line(int fd)
 {
-	static char	*storage = {0};
+	static char	*stash;
 	char		*line;
+	char		*buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	buffer = (char *) malloc((BUFFER_SIZE +1) * sizeof(char));
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(stash);
+		free(buffer);
+		stash = NULL;
+		buffer = NULL;
 		return (NULL);
-	if ((storage && !ft_strchr(storage, '\n')) || !storage)
-		storage = ft_str_read_data(fd, storage);
-	if (!storage)
+	}
+	if (!buffer)
 		return (NULL);
-	line = ft_str_get_line(storage);
+	line = ft_line_buffer(fd, stash, buffer);
+	free(buffer);
+	buffer = NULL;
 	if (!line)
-		return (ft_str_free_and_null(&storage));
-	storage = ft_str_remove_line(storage);
+		return (NULL);
+	stash = ft_set_line(line);
 	return (line);
 }
