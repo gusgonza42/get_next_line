@@ -6,7 +6,7 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:43:11 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/12 12:45:24 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 13:56:33 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,26 @@ char	*ft_strdup(const char *source)
 	return (destination);
 }
 
-char	*ft_strjoin(const char *sL, const char *sR)
+char	*ft_strjoin(char *s1, const char *s2)
 {
 	char	*res;
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 
-	if (sL == NULL)
-		sL = "";
-	res = (char *)malloc(sizeof(char) * (ft_strlen(sL) + ft_strlen(sR) + 1));
+	i = ft_strlen(s1);
+	j = ft_strlen(s2);
+	res = (char *)malloc(sizeof(char) * (i + l + 1));
 	if (!res)
+	{
+		free(s1);
 		return (NULL);
-	i = -1;
-	while (sL[++i] != '\0')
-		res[i] = sL[i];
-	j = -1;
-	while (sR[++j] != '\0')
-		res[i + j] = sR[j];
+	}
 	res[i + j] = '\0';
+	while (i--)
+		res[i + j] = s2[i];
+	while (i--)
+		res[i] = s1[j];
+	free(s1);
 	return (res);
 }
 

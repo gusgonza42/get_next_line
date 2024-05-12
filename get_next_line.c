@@ -6,7 +6,7 @@
 /*   By: gusgonza <gusgonza@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 13:42:59 by gusgonza          #+#    #+#             */
-/*   Updated: 2024/05/12 12:17:35 by gusgonza         ###   ########.fr       */
+/*   Updated: 2024/05/12 13:45:36 by gusgonza         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static char	*ft_line_buffer(int fd, char *stash_c, char *buffer)
 		else if (b_read == 0)
 			break ;
 		buffer[b_read] = 0;
-		if (!stash_c)
-			stash_c = ft_strdup("");
+		//if (!stash_c)
+		//	stash_c = ft_strdup("");
 		tmp = stash_c;
 		stash_c = ft_strjoin(tmp, buffer);
 		free(tmp);
@@ -68,7 +68,7 @@ char	*get_next_line(int fd)
 	char		*buffer;
 
 	buffer = (char *) malloc((BUFFER_SIZE +1) * sizeof(char));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0 , 0) < 0)
 	{
 		free(stash);
 		free(buffer);
