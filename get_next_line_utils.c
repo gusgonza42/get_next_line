@@ -12,6 +12,12 @@
 
 #include "get_next_line.h"
 
+/**
+ * Calcula la longitud de una cadena de caracteres.
+ *
+ * @param s La cadena de caracteres de la cual se desea calcular la longitud.
+ * @return La longitud de la cadena de caracteres.
+ */
 size_t	ft_strlen(const char *s)
 {
 	size_t	len;
@@ -24,6 +30,14 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
+/**
+ * Obtiene una subcadena de una cadena de caracteres.
+ *
+ * @param s La cadena de caracteres de la cual se desea obtener la subcadena.
+ * @param start La posición de inicio de la subcadena.
+ * @param len La longitud de la subcadena.
+ * @return La subcadena obtenida.
+ */
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	size_t	pos;
@@ -48,6 +62,12 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
+/**
+ * Duplica una cadena de caracteres.
+ *
+ * @param source La cadena de caracteres que se desea duplicar.
+ * @return La cadena de caracteres duplicada.
+ */
 char	*ft_strdup(const char *source)
 {
 	char	*destination;
@@ -70,6 +90,13 @@ char	*ft_strdup(const char *source)
 	return (destination);
 }
 
+/**
+ * Concatena dos cadenas de caracteres.
+ *
+ * @param s1 La primera cadena de caracteres.
+ * @param s2 La segunda cadena de caracteres.
+ * @return La cadena de caracteres resultante de la concatenación.
+ */
 char	*ft_strjoin(char *s1, const char *s2)
 {
 	char	*res;
@@ -93,6 +120,13 @@ char	*ft_strjoin(char *s1, const char *s2)
 	return (res);
 }
 
+/**
+ * Busca la primera aparición de un carácter en una cadena de caracteres.
+ *
+ * @param s La cadena de caracteres en la cual se desea buscar.
+ * @param c El carácter que se desea buscar.
+ * @return Un puntero a la primera aparición del carácter en la cadena, o NULL si no se encuentra.
+ */
 char	*ft_strchr(char *s, int c)
 {
 	unsigned int	pos;
