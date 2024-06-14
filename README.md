@@ -47,4 +47,35 @@ Solo necesitas editar el archivo get_next_line.c y descomentar la función main 
 gcc -Wall -Werror -Wextra -D BUFFER_SIZE=xx get_next_line.c get_next_line_utils.c && ./a.out
 ```
 
+### Ejemplo de `main` para pruebas
 
+Aquí hay un ejemplo de cómo podría verse tu `main` en el archivo `get_next_line.c` para realizar pruebas:
+
+```c
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int fd;
+    char *line;
+
+    fd = open("test.txt", O_RDONLY);
+    if (fd == -1)
+        return (1);
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
+}
+```
+
+### Notas Finales
+
+- Asegúrate de manejar correctamente la memoria para evitar fugas.
+- Considera todos los posibles casos borde (archivo vacío, línea muy larga, etc.).
+- Realiza pruebas exhaustivas para asegurarte de que la función se comporta como se espera en todas las situaciones posibles.
