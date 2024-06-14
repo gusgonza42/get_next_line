@@ -5,6 +5,7 @@
 
 [![Build Status](https://img.shields.io/static/v1?label=Build%20Status&message=success&color=green)](https://github.com/gusgonza42/get_next_line)
 
+</div>
 - - -
 
 Claro, aquí tienes una versión en español para incluir en el README de tu proyecto:
